@@ -19,6 +19,11 @@
  *   - LINK_GEO_GET (no AEAD wrap; socket perms gate):   §9, §9.4
  */
 
+/* Required for strdup, snprintf-with-%n on glibc, struct sockaddr_un.
+ * Define BEFORE any system header so feature-test macros take effect. */
+#define _DEFAULT_SOURCE
+#define _POSIX_C_SOURCE 200809L
+
 #include "brightlink/brightlink.h"
 #include "brightlink/brightlink_crypto.h"
 #include "pin_store_internal.h"

@@ -25,7 +25,13 @@ secp256k1_context *blc_secp(void)
         if (g_blc_secp != NULL) {
             unsigned char seed[32];
             if (RAND_bytes(seed, sizeof(seed)) == 1) {
-                (void)secp256k1_context_randomize(g_blc_secp, seed);
+                /* Best-effort blinding. Failure to randomize is non-
+                 * fatal — the context still functions; we just don't
+                 * benefit from the side-channel hardening. We capture
+                 * the return value to suppress warn_unused_result on
+                 * newer libsecp256k1 headers. */
+                int rand_ok = secp256k1_context_randomize(g_blc_secp, seed);
+                (void)rand_ok;
             }
             OPENSSL_cleanse(seed, sizeof(seed));
         }

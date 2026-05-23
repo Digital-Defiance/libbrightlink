@@ -10,6 +10,11 @@
  * the entire bridge lifecycle.
  */
 
+/* mkdtemp/kill require POSIX.1-2008 feature exposure on glibc. */
+#define _DEFAULT_SOURCE
+#define _XOPEN_SOURCE 700
+#define _POSIX_C_SOURCE 200809L
+
 #include "brightlink/brightlink.h"
 
 #include <stdio.h>
@@ -178,7 +183,7 @@ int main(int argc, char **argv)
         }
 
         /* Verify pin file was written with the BLP1 magic. */
-        char pin_path[1024];
+        char pin_path[1100];
         snprintf(pin_path, sizeof(pin_path), "%s/test_handshake.sep-pub", pin_dir);
         int pf = open(pin_path, O_RDONLY);
         if (pf < 0) {

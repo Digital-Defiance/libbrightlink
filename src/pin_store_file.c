@@ -24,6 +24,9 @@
  * leaves room for it.
  */
 
+#define _DEFAULT_SOURCE
+#define _POSIX_C_SOURCE 200809L
+
 #include "brightlink/brightlink.h"
 #include "pin_store_internal.h"
 

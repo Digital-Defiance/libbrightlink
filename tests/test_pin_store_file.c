@@ -18,6 +18,11 @@
  * never touches struct internals.
  */
 
+/* mkdtemp is XSI/POSIX.1-2008; glibc only exposes it under
+ * _DEFAULT_SOURCE / _XOPEN_SOURCE >= 500. Define before any include. */
+#define _DEFAULT_SOURCE
+#define _XOPEN_SOURCE 700
+
 #include "brightlink/brightlink.h"
 
 #include <stdio.h>

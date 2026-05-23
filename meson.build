@@ -4,7 +4,7 @@
 project('libbrightlink', 'c',
     version : '0.1.0',
     default_options : [
-        'c_std=c99',
+        'c_std=gnu99',
         'warning_level=3',
         'werror=false',
     ],
@@ -12,6 +12,13 @@ project('libbrightlink', 'c',
     meson_version : '>=0.56')
 
 cc = meson.get_compiler('c')
+
+# macOS clang hides BSD extensions like mkdtemp under strict-POSIX
+# selection. _DARWIN_C_SOURCE re-enables them. Linux glibc handles this
+# via _DEFAULT_SOURCE, which gnu99 already implies.
+if host_machine.system() == 'darwin'
+    add_project_arguments('-D_DARWIN_C_SOURCE', language : 'c')
+endif
 
 # Required deps. Both crypto stacks must be available; libBrightLink does
 # not have a no-crypto build mode (the protocol is the crypto).
