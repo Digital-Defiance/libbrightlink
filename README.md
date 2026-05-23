@@ -13,7 +13,7 @@ resident [BrightNexus][nexus] desktop agent.
 Source-level compatibility is preserved between minor versions; binary
 compatibility is not promised before v1.0.
 
-The v0.1.x surface covers what BSH iputils needs:
+The v0.1.x surface covers what Bright iptils needs:
 
 - `bl_client_new` / `bl_client_free` — handle-based lifecycle
 - `bl_register` — explicit registration (also called lazily)
@@ -32,7 +32,7 @@ nine §5 payload schemas, the remaining four `LINK_GEO_*` verbs, and the
 
 | Project | Status | Notes |
 |---------|--------|-------|
-| BSH iputils | ✅ in-tree submodule | `bping`, `btraceroute`, `bmtr`, `baudit` use `bl_geo_get` |
+| Bright iptils | ✅ in-tree submodule | `bping`, `btraceroute`, `bmtr`, `baudit` use `bl_geo_get` |
 | BSH (zsh fork) | 🚧 migration in progress | replacing `Src/Modules/brightlink.c` with a thin shim over libBrightLink |
 
 ## Build

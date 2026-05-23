@@ -2,7 +2,7 @@
  * brightlink.c — handle-based BrightLink Protocol client.
  *
  * Implements the public API in include/brightlink/brightlink.h. Compared
- * with the bsh-iputils-internal predecessor that held a single
+ * with the bright-iputils-internal predecessor that held a single
  * implicit session in module-global state, this file is rebuilt around
  * an explicit bl_client_t handle so multiple sessions can coexist
  * (different sockets, different agents, different pin stores) and so

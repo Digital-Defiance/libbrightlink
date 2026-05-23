@@ -1,7 +1,7 @@
 # Packaging
 
 libBrightLink does not currently ship as a standalone distribution package.
-Each consumer (BSH iputils, BSH) embeds it via git submodule and statically
+Each consumer (Bright iptils, BSH) embeds it via git submodule and statically
 links the result into its own binaries.
 
 ## Why static-only for v0.1.x
@@ -11,7 +11,7 @@ links the result into its own binaries.
 - The total static cost is ~30 KB per binary — trivial relative to OpenSSL
   itself, which every consumer already links.
 - Static linking dodges SONAME drift across distros (`libsecp256k1-1` on
-  Ubuntu noble vs `libsecp256k1-6` on later releases is the bsh-iputils
+  Ubuntu noble vs `libsecp256k1-6` on later releases is the bright-iputils
   example) by burying the dependency edge inside the consumer's own
   build-time `${shlibs:Depends}` resolution.
 

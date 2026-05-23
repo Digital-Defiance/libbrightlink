@@ -25,7 +25,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 The library will be promoted to ABI-stable v1.0.0 (and a versioned shared
 library) when:
 
-1. Both reference consumers (BSH iputils and BSH) have shipped against
+1. Both reference consumers (Bright iputils and BSH) have shipped against
    libBrightLink for at least one stable release.
 2. A third-party consumer outside Digital Defiance has integrated and
    provided integration feedback.
