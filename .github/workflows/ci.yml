@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-test:
+    name: ${{ matrix.os }} / openssl ${{ matrix.openssl }} / secp ${{ matrix.secp }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Ubuntu 24.04 (noble) ships libsecp256k1-1 — the older SONAME
+          # we're explicitly required to support.
+          - os: ubuntu-24.04
+            openssl: "system"
+            secp: "1"
+          # Newer Ubuntu (when the GitHub runner image lands) will ship
+          # libsecp256k1-6. This job lets us catch SONAME drift early.
+          - os: ubuntu-latest
+            openssl: "system"
+            secp: "system"
+          # macOS via Homebrew.
+          - os: macos-latest
+            openssl: "homebrew"
+            secp: "homebrew"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Linux build deps
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            meson ninja-build pkg-config \
+            libssl-dev libsecp256k1-dev
+
+      - name: Install macOS build deps
+        if: runner.os == 'macOS'
+        run: |
+          brew install meson ninja pkg-config openssl@3 libsecp256k1
+          # pkg-config needs to find Homebrew openssl on macOS.
+          echo "PKG_CONFIG_PATH=$(brew --prefix openssl@3)/lib/pkgconfig:$(brew --prefix libsecp256k1)/lib/pkgconfig" >> "$GITHUB_ENV"
+
+      - name: Configure
+        run: meson setup build
+
+      - name: Build
+        run: ninja -C build
+
+      - name: Test
+        run: meson test -C build --print-errorlogs
+
+      - name: Upload meson test log on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: meson-testlog-${{ matrix.os }}
+          path: build/meson-logs/testlog.txt

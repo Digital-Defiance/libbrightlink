@@ -1,0 +1,5 @@
+# SPDX-License-Identifier: MIT
+option('libbrightlink_tests',
+    type : 'boolean',
+    value : true,
+    description : 'Build the tests/ tree (mock-brightnexus + Perl harness)')
