@@ -42,9 +42,11 @@ jobs:
       - name: Install macOS build deps
         if: runner.os == 'macOS'
         run: |
-          brew install meson ninja pkg-config openssl@3 libsecp256k1
-          # pkg-config needs to find Homebrew openssl on macOS.
-          echo "PKG_CONFIG_PATH=$(brew --prefix openssl@3)/lib/pkgconfig:$(brew --prefix libsecp256k1)/lib/pkgconfig" >> "$GITHUB_ENV"
+          brew install meson ninja pkg-config openssl@3 secp256k1
+          # pkg-config needs to find Homebrew openssl on macOS. The
+          # secp256k1 formula installs its .pc file under the standard
+          # Homebrew prefix, which is already on PKG_CONFIG_PATH.
+          echo "PKG_CONFIG_PATH=$(brew --prefix openssl@3)/lib/pkgconfig:$(brew --prefix secp256k1)/lib/pkgconfig" >> "$GITHUB_ENV"
 
       - name: Configure
         run: meson setup build
